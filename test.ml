@@ -1,4 +1,5 @@
 let _ = exit 0;;
+#load "GridCore.cmo";;
 #load "Grid.cmo";;
 
 let g = Grid.init (fun i j -> Grid.of_int64_unsafe (if i = j then 1L else 0L))
@@ -32,3 +33,11 @@ let _ = Grid.to_int64_matrix c2
 
 let g2 = Grid.cols_to_grid q2
 let _ = Grid.to_int64_matrix g2
+
+
+let g = Grid.init (fun i j -> Grid.of_int64_unsafe
+                                (if i = j then Int64.of_int (i + 1) else 0L))
+let _ = Grid.to_int64_matrix g
+let _ = Grid.to_int64_matrix (Grid.s_h g)
+let _ = Grid.to_int64_matrix (Grid.s_v g)
+let _ = Grid.to_int64_matrix (Grid.s_o g)
