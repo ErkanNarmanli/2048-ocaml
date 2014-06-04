@@ -19,14 +19,17 @@ val rows_to_grid : [ `Row ] t * [ `Row ] t * [ `Row ] t * [ `Row ] t
 val cols_to_grid : [ `Col ] t * [ `Col ] t * [ `Col ] t * [ `Col ] t
                      -> [ `Grid ] t
 
-val quad_flip  : 'a t * 'b t * 'c t * 'd t -> 'd t * 'c t * 'b t * 'a t
-val quad_apply : ('a t -> 'b t) -> 'a t * 'a t * 'a t * 'a t
-                   -> 'b t * 'b t * 'b t * 'b t
-
 val row_to_col : [ `Row ] t -> [ `Col ] t
 val col_to_row : [ `Col ] t -> [ `Row ] t
 
 val make : [ `Elem ] t                 -> [ `Grid ] t
 val init : (int -> int -> [ `Elem ] t) -> [ `Grid ] t
 
+val get : [ `Grid ] t -> int -> int -> [ `Elem ] t
+
 val fold_left : ('b -> [ `Elem ] t -> 'b) -> 'b -> [ `Grid ] t -> 'b
+
+val iter : ([ `Elem ] t -> unit) -> [ `Grid ] t -> unit
+
+(* juste pour le debuggage *)
+val to_int64_matrix : 'a t -> int64 array array

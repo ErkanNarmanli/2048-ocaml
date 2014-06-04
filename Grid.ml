@@ -3,14 +3,11 @@
 
 include GridCore
 
-let get g i j = row_nth (grid_nth_row g i) j
+let quad_flip (a1, a2, a3, a4) = (a4, a3, a2, a1)
 
-let iter f g = fold_left (fun _ x -> f x) () g
-
-(* pour affichage dans le toplevel : *)
-
-let to_int64_matrix g =
-  Array.init 4 (fun i -> Array.init 4 (fun j -> get g i j))
+let quad_apply f (a1, a2, a3, a4) = (f a1, f a2, f a3, f a4)
 
 
-(* TODO : transformations + comparaison ... *)
+
+
+(* TODO : transformations + comparaison + pretty_print + ... *)

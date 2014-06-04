@@ -6,8 +6,8 @@
 
 type 'a t = int64
 
-let to_int64 x = x
-let of_int64_unsafe x = x
+let to_int64 = Obj.magic (* more efficient than id function ; but be careful *)
+let of_int64_unsafe = Obj.magic
 
 (* to be inlined later (unless the compiler do so) *)
 
@@ -54,10 +54,6 @@ let cols_to_grid (c1, c2, c3, c4) =
   (shift_push c1 (shift_push c2 (shift_push c3 c4)))
 
 
-let quad_flip (a1, a2, a3, a4) = (a4, a3, a2, a1)
-
-let quad_apply f (a1, a2, a3, a4) = (f a1, f a2, f a3, f a4)
-
 (* pas le plus efficace ... *)
 let row_to_col r =
   (shift_row_push (row_nth r 0)
@@ -86,9 +82,21 @@ let init f =
   in aux 0L 3 3
 
 
+let get g i j = row_nth (grid_nth_row g i) j
+
+
 let fold_left f e g =
   let rec aux g i j acc  =
     if i > 3 then acc else
       if j > 3 then aux g (i + 1) 0 acc else
         aux (shitf_pop g) i (j + 1) (f acc (first g))
   in aux g 0 0 e
+
+
+
+let iter f g = fold_left (fun _ x -> f x) () g
+(* pour affichage dans le toplevel : *)
+
+
+let to_int64_matrix g =
+  Array.init 4 (fun i -> Array.init 4 (fun j -> get g i j))
