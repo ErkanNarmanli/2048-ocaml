@@ -2,7 +2,8 @@
 
 RESULT = temp
 SOURCES = \
-	Grille.ml \
-	test.ml
+	Grid.mli \
+	Grid.ml 
+
 include OCamlMakefile
 
