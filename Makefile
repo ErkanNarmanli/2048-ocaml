@@ -2,7 +2,8 @@
 
 RESULT = temp
 SOURCES = \
-	Grid.mli \
+	GridCore.mli \
+	GridCore.ml \
 	Grid.ml 
 
 include OCamlMakefile

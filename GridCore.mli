@@ -11,8 +11,6 @@ val col_nth      : [ `Col ] t  -> int -> [ `Elem ] t
 val grid_nth_row : [ `Grid ] t -> int -> [ `Row ] t
 val grid_nth_col : [ `Grid ] t -> int -> [ `Col ] t
 
-val get : [ `Grid ] t -> int -> int -> [ `Elem ] t
-
 val rows : [ `Grid ] t -> [ `Row ] t * [ `Row ] t * [ `Row ] t * [ `Row ] t
 val cols : [ `Grid ] t -> [ `Col ] t * [ `Col ] t * [ `Col ] t * [ `Col ] t
 
@@ -32,7 +30,3 @@ val make : [ `Elem ] t                 -> [ `Grid ] t
 val init : (int -> int -> [ `Elem ] t) -> [ `Grid ] t
 
 val fold_left : ('b -> [ `Elem ] t -> 'b) -> 'b -> [ `Grid ] t -> 'b
-
-val iter : ([ `Elem ] t -> unit) -> [ `Grid ] t -> unit
-
-val to_int64_matrix : 'a t -> int64 array array
