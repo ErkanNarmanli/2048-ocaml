@@ -25,7 +25,8 @@ val col_to_row : [ `Col ] t -> [ `Row ] t
 val make : [ `Elem ] t                 -> [ `Grid ] t
 val init : (int -> int -> [ `Elem ] t) -> [ `Grid ] t
 
-val get : [ `Grid ] t -> int -> int -> [ `Elem ] t
+val get    : [ `Grid ] t -> int -> int                -> [ `Elem ] t
+val update : [ `Grid ] t -> int -> int -> [ `Elem ] t -> [ `Grid ] t
 
 val fold_left : ('b -> [ `Elem ] t -> 'b) -> 'b -> [ `Grid ] t -> 'b
 

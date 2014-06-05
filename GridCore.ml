@@ -11,7 +11,7 @@ let of_int64_unsafe = Obj.magic
 
 (* to be inlined later (unless the compiler do so) *)
 
-(* /\ dommage, pourrait profiter a merveille des phatom types ... 
+(* dommage, pourrait profiter a merveille des phatom types ... 
    notamment shift_pop et autres, qui marchent sur les element et les colones
    (pas les lignes ...) ; en mettant le tout dans un sous-module unsafe ... *)
 
@@ -84,6 +84,10 @@ let init f =
 
 let get g i j = row_nth (grid_nth_row g i) j
 
+(* TODO : ABSOLUMENT OPTIMISER !!! pour l'instant tres sale !! *)
+let update g i0 j0 e =
+  init (fun i j -> if i = i0 && j = j0 then e else get g i j)
+
 
 let fold_left f e g =
   let rec aux g i j acc  =
@@ -95,8 +99,10 @@ let fold_left f e g =
 
 
 let iter f g = fold_left (fun _ x -> f x) () g
-(* pour affichage dans le toplevel : *)
 
+
+(* pour affichage dans le toplevel : *)
+(* TODO REMOVE LATER *)
 
 let to_int64_matrix g =
   Array.init 4 (fun i -> Array.init 4 (fun j -> get g i j))

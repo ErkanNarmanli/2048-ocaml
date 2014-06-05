@@ -27,4 +27,29 @@ let r_moins g = s_vert (s_diag g)
 (* TODO : TESTER !!!! *)
 (* TODO : dans les calcul de l'element canonique, pas faire le bourrin,
    mais plutot réutiliser les calculs intermédiaires *)
-(* TODO : element canonique + pretty_print + ... *)
+
+
+(* entrées-sorties *)
+
+let to_tile_value (e : [ `Elem ] t) =
+  let rec aux n acc =
+    if n = 1 then acc else aux (n - 1) (acc lsl 1)
+  in
+  let i = Int64.to_int (to_int64 e) in
+  if i = 0 then 0 else aux i 2
+
+let output_grid oc g =
+  begin
+    Printf.fprintf oc "\n+-------+-------+-------+-------+\n" ;
+    for i = 0 to 3 do
+      Printf.printf "|" ;
+      for j = 0 to 3 do
+        Printf.fprintf oc " %5d |" (to_tile_value (get g i j)) ;
+      done ;
+      Printf.fprintf oc "\n+-------+-------+-------+-------+\n" ;
+    done ;
+    Printf.fprintf oc "\n"
+  end
+
+
+let print_grid g = output_grid stdout g
