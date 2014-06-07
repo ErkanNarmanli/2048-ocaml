@@ -1,8 +1,4 @@
-(* TODO : commenter correctement et en anglais *)
-(* TODO : optimiser (plus tard) *)
-(* TODO : des phantom types pour assurer (en dehors) qu'on manipule bien
-   un(e) grille/ligne/colone/element ... => c'est fait (cf .mli)
-   + partager en core (ou c'est unsafe) et ext (via foncteur ?) *)
+(* TODO : optimization + more detailed comments *)
 
 type 'a t = int64
 
@@ -11,6 +7,7 @@ let of_int64_unsafe = Obj.magic
 
 (* to be inlined later (unless the compiler do so) *)
 
+(* TODO : translate or delete this comment *)
 (* dommage, pourrait profiter a merveille des phatom types ... 
    notamment shift_pop et autres, qui marchent sur les element et les colones
    (pas les lignes ...) ; en mettant le tout dans un sous-module unsafe ... *)
@@ -38,8 +35,7 @@ let grid_nth_col g n = first_col (shift_npop g n)
 
 
 
-(* \/ on peut faire qq optis en virant qq appels de fonctions ...  *)
-
+(* we might do some optimization by bypassing some function calls *)
 let rows g =
   (grid_nth_row g 0, grid_nth_row g 1, grid_nth_row g 2, grid_nth_row g 3)
 
@@ -54,7 +50,7 @@ let cols_to_grid (c1, c2, c3, c4) =
   (shift_push c1 (shift_push c2 (shift_push c3 c4)))
 
 
-(* pas le plus efficace ... *)
+(* clearly no the most efficient *)
 let row_to_col r =
   (shift_row_push (row_nth r 0)
   (shift_row_push (row_nth r 1)
@@ -64,8 +60,6 @@ let col_to_row c =
   (shift_push (col_nth c 1)
                   (shift_push (col_nth c 2) (col_nth c 3))))
 
-(* TODO : col to row et vice versa + les symetries et tout et tout *)
-
 let make x =
   let rec aux g i =
     if i = 16 then g else
@@ -73,7 +67,7 @@ let make x =
   in aux 0L 0
 
 
-(* la numérotation commence à 0 hein ! *)
+(* numbering starts at 0 *)
 let init f =
   let rec aux g i j =
     if i < 0 then g else
@@ -84,7 +78,7 @@ let init f =
 
 let get g i j = row_nth (grid_nth_row g i) j
 
-(* TODO : ABSOLUMENT OPTIMISER !!! pour l'instant tres sale !! *)
+(* TODO : TO BE OPTIMIZED !!! currently quite dirty *)
 let update g i0 j0 e =
   init (fun i j -> if i = i0 && j = j0 then e else get g i j)
 
@@ -99,10 +93,3 @@ let fold_left f e g =
 
 
 let iter f g = fold_left (fun _ x -> f x) () g
-
-
-(* pour affichage dans le toplevel : *)
-(* TODO REMOVE LATER *)
-
-let to_int64_matrix g =
-  Array.init 4 (fun i -> Array.init 4 (fun j -> get g i j))

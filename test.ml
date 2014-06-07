@@ -43,6 +43,52 @@ let _ = Grid.to_int64_matrix (Grid.s_v g)
 let _ = Grid.to_int64_matrix (Grid.s_o g)
 
 
+let g = 
+  let g = Grid.make (Grid.of_int64_unsafe 0L) in
+  let g = Grid.update g 0 0 (Grid.of_int64_unsafe 1L) in
+  let g = Grid.update g 0 3 (Grid.of_int64_unsafe 2L) in
+  let g = Grid.update g 3 3 (Grid.of_int64_unsafe 3L) in
+  let g = Grid.update g 3 0 (Grid.of_int64_unsafe 4L) in
+  g
+let () = begin
+    Grid.print_grid g ;
+    Grid.print_grid (Grid.s_horiz g) ;
+    flush_all () ;
 
-let g = Grid.make (Grid.of_int64_unsafe 0L)
-let () = Grid.print_grid g
+  end
+
+let () = begin
+    Grid.print_grid g ;
+    Grid.print_grid (Grid.s_vert g) ;
+    flush_all () ;
+  end
+
+let () = begin
+    Grid.print_grid g ;
+    Grid.print_grid (Grid.s_diag g) ;
+    flush_all () ;
+  end
+
+let () = begin
+    Grid.print_grid g ;
+    Grid.print_grid (Grid.s_adiag g) ;
+    flush_all () ;
+  end
+
+let () = begin
+    Grid.print_grid g ;
+    Grid.print_grid (Grid.s_cent g) ;
+    flush_all () ;
+  end
+
+let () = begin
+    Grid.print_grid g ;
+    Grid.print_grid (Grid.r_plus g) ;
+    flush_all () ;
+  end
+
+let () = begin
+    Grid.print_grid g ;
+    Grid.print_grid (Grid.r_minus g) ;
+    flush_all () ;
+  end

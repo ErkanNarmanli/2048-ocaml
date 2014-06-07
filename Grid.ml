@@ -1,5 +1,5 @@
-(* module grid ; pour les trucs a optimiser, voir core
-   (mais ici c'est plus safe ...) *)
+(* Grid module ; several things are still to be optimized (see GridCore)     *
+ * there, function are type-safe                                             *)
 
 include GridCore
 
@@ -15,21 +15,30 @@ let s_cent g = s_vert (s_horiz g)
 
 let s_diag g = rows_to_grid (quad_apply col_to_row (cols g))
 
-(* tres probablement pas des plus efficace *)
+
+(* probaly not very efficient *)
 let s_adiag g = s_cent (s_diag g)
 
+(* TODO : translate comments *)
 (* plus = sens trigo *)
 (* TODO : optim en virant des conversions inutiles ... *)
 let r_plus g = s_diag (s_vert g)
 
-let r_moins g = s_vert (s_diag g)
-
-(* TODO : TESTER !!!! *)
-(* TODO : dans les calcul de l'element canonique, pas faire le bourrin,
-   mais plutot réutiliser les calculs intermédiaires *)
+let r_minus g = s_vert (s_diag g)
 
 
-(* entrées-sorties *)
+(* THIS IS A TEST VERSION *)
+(* TODO : when computong canonical element, one shall not use brute force    *
+ * but reuse intermediate results ; also minimum sould not be computed       *
+ * by linear traversal of a list (as min is associative and commutative)     *)
+(* BE CAREFUL : built-in min treat 64-bit integer as signed ; to be fixed    *)
+let canon_elem g =
+  let list = [ s_horiz g ; s_vert g ; s_cent g ; s_diag g ; s_adiag g ; 
+               r_plus g ; r_minus g ] in
+  List.fold_left min g list
+
+
+(* Outputs *)
 
 let to_tile_value (e : [ `Elem ] t) =
   let rec aux n acc =
